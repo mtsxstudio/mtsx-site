@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05070c">
+<meta name="description" content="MTSX® — Sites modernos, landing pages e experiências digitais premium.">
+<title>MTSX® — Experiências Digitais</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    --bg: #05070c;
+    --bg2: #080b12;
+    --text: #f5f7fb;
+    --muted: #8d96a8;
+    --blue: #1683ff;
+    --blue2: #55b1ff;
+    --line: rgba(255,255,255,.09);
+    --glass: rgba(255,255,255,.045);
+    --max: 1180px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: auto;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, Arial, sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font: inherit;
+}
+
+/* =========================
+   LOADER
+========================= */
+
+#loader {
+    position: fixed;
+    inset: 0;
+    background: #03050a;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    transition: opacity .7s, visibility .7s;
+}
+
+#loader.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-inner {
+    text-align: center;
+}
+
+.loader-logo {
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: -2px;
+}
+
+.loader-logo span {
+    color: var(--blue);
+}
+
+.loader-line {
+    width: 180px;
+    height: 2px;
+    background: #1b2330;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+.loader-line i {
+    display: block;
+    width: 40%;
+    height: 100%;
+    background: var(--blue);
+    animation: load 1.3s infinite;
+}
+
+@keyframes load {
+    to {
+        transform: translateX(260%);
+    }
+}
+
+/* =========================
+   CURSOR
+========================= */
+
+#cursor,
+#cursorDot {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#cursor {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(85,177,255,.7);
+    transition:
+        width .25s,
+        height .25s,
+        background .25s,
+        border .25s;
+}
+
+#cursorDot {
+    width: 5px;
+    height: 5px;
+    background: #fff;
+}
+
+.cursor-grow #cursor {
+    width: 65px;
+    height: 65px;
+    background: rgba(22,131,255,.12);
+    border-color: rgba(85,177,255,.9);
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.noise {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    opacity: .035;
+
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+}
+
+.grid {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .22;
+
+    background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+
+    background-size: 80px 80px;
+
+    mask-image: linear-gradient(
+        to bottom,
+        black,
+        transparent 75%
+    );
+}
+
+.glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(22,131,255,.18),
+            transparent 68%
+        );
+
+    filter: blur(20px);
+    pointer-events: none;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    padding: 20px 5%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    transition: .4s;
+}
+
+nav.scrolled {
+    background: rgba(5,7,12,.72);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--line);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+}
+
+.logo span {
+    color: var(--blue);
+}
+
+.navlinks {
+    display: flex;
+    gap: 30px;
+
+    color: #aeb6c5;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.navlinks a {
+    transition: .25s;
+}
+
+.navlinks a:hover {
+    color: #fff;
+}
+
+.nav-cta {
+    padding: 11px 18px;
+
+    border: 1px solid rgba(85,177,255,.35);
+    border-radius: 999px;
+
+    background: rgba(22,131,255,.1);
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.menu {
+    display: none;
+
+    background: none;
+    border: 0;
+
+    color: #fff;
+    font-size: 24px;
+}
+
+/* =========================
+   SEÇÕES
+========================= */
+
+section {
+    position: relative;
+    max-width: var(--max);
+    margin: auto;
+    padding: 120px 28px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+
+    padding-top: 140px;
+
+    overflow: hidden;
+}
+
+.hero .glow {
+    right: -240px;
+    top: 80px;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    gap: 9px;
+    align-items: center;
+
+    border: 1px solid var(--line);
+    background: var(--glass);
+
+    padding: 8px 12px;
+    border-radius: 999px;
+
+    color: #b8c1d0;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .5px;
+
+    margin-bottom: 28px;
+}
+
+.pulse {
+    width: 7px;
+    height: 7px;
+
+    background: #4bd98a;
+    border-radius: 50%;
+
+    box-shadow: 0 0 15px #4bd98a;
+}
+
+h1 {
+    font-size: clamp(58px, 9vw, 128px);
+
+    line-height: .88;
+
+    letter-spacing: -7px;
+
+    font-weight: 900;
+
+    max-width: 1000px;
+}
+
+.gradient-text {
+    color: transparent;
+
+    background:
+        linear-gradient(
+            100deg,
+            #fff 15%,
+            #5bb6ff 52%,
+            #1683ff 85%
+        );
+
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.hero-sub {
+    max-width: 600px;
+
+    margin: 32px 0;
+
+    color: #929bab;
+
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    min-height: 50px;
+
+    padding: 0 22px;
+
+    border-radius: 12px;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    border: 1px solid var(--line);
+
+    transition:
+        transform .25s,
+        background .25s,
+        border .25s;
+}
+
+.btn-primary {
+    background: #1683ff;
+    border-color: #1683ff;
+    color: white;
+
+    box-shadow:
+        0 10px 35px rgba(22,131,255,.2);
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,.035);
+    color: #dce2ec;
+}
+
+.btn:hover {
+    transform: translateY(-4px);
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 35px;
+    left: 28px;
+
+    color: #626b7b;
+
+    font-size: 10px;
+    letter-spacing: 2px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.scroll-indicator i {
+    display: block;
+
+    width: 50px;
+    height: 1px;
+
+    background: #333d4e;
+}
+
+/* =========================
+   TÍTULOS
+========================= */
+
+.section-label {
+    color: var(--blue2);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-size: clamp(36px, 6vw, 72px);
+
+    letter-spacing: -4px;
+
+    line-height: 1;
+
+    font-weight: 900;
+
+    max-width: 850px;
+}
+
+.section-copy {
+    color: var(--muted);
+
+    line-height: 1.75;
+
+    max-width: 620px;
+
+    margin-top: 22px;
+}
+
+/* =========================
+   REVEAL
+========================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.visible {
+    opacity: 1;
+    transform: none;
+
+    transition:
+        opacity .9s ease,
+        transform .9s cubic-bezier(.2,.7,.2,1);
+}
+
+/* =========================
+   SERVIÇOS
+========================= */
+
+.services-grid {
+    margin-top: 60px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 14px;
+}
+
+.card {
+    position: relative;
+
+    min-height: 360px;
+
+    padding: 30px;
+
+    border: 1px solid var(--line);
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.015)
+        );
+
+    overflow: hidden;
+
+    transition:
+        border .35s,
+        background .35s,
+        transform .2s;
+}
+
+.card:before {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    right: -80px;
+    top: -80px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(22,131,255,.25),
+            transparent 70%
+        );
+
+    transition: .5s;
+}
+
+.card:hover {
+    border-color: rgba(85,177,255,.4);
+
+    background:
+        rgba(255,255,255,.065);
+}
+
+.card:hover:before {
+    transform: scale(1.7);
+}
+
+.card-number {
+    font-size: 11px;
+    color: #566174;
+    font-weight: 800;
+}
+
+.card-icon {
+    margin: 55px 0 25px;
+
+    width: 50px;
+    height: 50px;
+
+    border: 1px solid rgba(85,177,255,.25);
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 14px;
+
+    color: #55b1ff;
+
+    font-size: 20px;
+
+    background: rgba(22,131,255,.08);
+}
+
+.card h3 {
+    font-size: 25px;
+
+    letter-spacing: -1px;
+
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #7f899a;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+.price {
+    margin-top: 25px;
+
+    font-size: 28px;
+
+    font-weight: 900;
+}
+
+.price small {
+    font-size: 11px;
+
+    color: #697386;
+
+    font-weight: 600;
+}
+
+/* =========================
+   PROJETOS
+========================= */
+
+.showcase {
+    margin-top: 60px;
+
+    display: grid;
+
+    grid-template-columns:
+        1.4fr .6fr;
+
+    gap: 14px;
+}
+
+.demo {
+    min-height: 500px;
+
+    border-radius: 24px;
+
+    border: 1px solid var(--line);
+
+    overflow: hidden;
+
+    position: relative;
+
+    background: #0b1018;
+}
+
+.demo.big {
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(22,131,255,.28),
+            transparent 35%
+        ),
+        linear-gradient(
+            145deg,
+            #0b1018,
+            #05070c
+        );
+}
+
+.demo.small {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    padding: 28px;
+}
+
+.demo-inner {
+    position: absolute;
+
+    inset: 0;
+
+    padding: 45px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+.demo-kicker {
+    font-size: 10px;
+
+    color: #64b8ff;
+
+    letter-spacing: 2px;
+
+    font-weight: 800;
+}
+
+.demo h3 {
+    font-size: clamp(40px, 6vw, 78px);
+
+    line-height: .9;
+
+    letter-spacing: -5px;
+
+    margin: 15px 0;
+}
+
+.demo p {
+    color: #8993a5;
+
+    max-width: 450px;
+
+    line-height: 1.6;
+
+    font-size: 13px;
+}
+
+.fake-ui {
+    position: absolute;
+
+    right: 7%;
+    bottom: 8%;
+
+    width: 42%;
+    height: 50%;
+
+    border: 1px solid rgba(255,255,255,.12);
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,.04);
+
+    backdrop-filter: blur(10px);
+
+    transform: rotate(-5deg);
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.5);
+}
+
+.fake-ui:before {
+    content: "";
+
+    display: block;
+
+    width: 35%;
+    height: 7px;
+
+    margin: 25px;
+
+    border-radius: 99px;
+
+    background: #1683ff;
+
+    box-shadow:
+        0 25px 0 rgba(255,255,255,.1),
+        0 50px 0 rgba(255,255,255,.06);
+}
+
+.fake-ui:after {
+    content: "";
+
+    position: absolute;
+
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+
+    height: 35%;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(22,131,255,.25),
+            rgba(255,255,255,.03)
+        );
+}
+
+.demo.small .mini-num {
+    font-size: 65px;
+
+    font-weight: 900;
+
+    letter-spacing: -5px;
+
+    color: #1683ff;
+}
+
+.demo.small h4 {
+    font-size: 28px;
+
+    letter-spacing: -1.5px;
+}
+
+.demo.small p {
+    font-size: 12px;
+
+    color: #737e90;
+
+    line-height: 1.7;
+}
+
+/* =========================
+   PROCESSO
+========================= */
+
+.process {
+    margin-top: 65px;
+
+    border-top: 1px solid var(--line);
+}
+
+.step {
+    display: grid;
+
+    grid-template-columns:
+        100px 1fr 2fr;
+
+    gap: 20px;
+
+    padding: 35px 0;
+
+    border-bottom: 1px solid var(--line);
+
+    align-items: center;
+}
+
+.step-num {
+    color: #4e586a;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+.step h3 {
+    font-size: 24px;
+
+    letter-spacing: -1px;
+}
+
+.step p {
+    color: #7d8798;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+/* =========================
+   CTA
+========================= */
+
+.cta {
+    margin-top: 80px;
+
+    min-height: 430px;
+
+    border: 1px solid rgba(85,177,255,.22);
+
+    border-radius: 28px;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(22,131,255,.16),
+            transparent 55%
+        ),
+        #070a10;
+}
+
+.cta .glow {
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 500px;
+    height: 500px;
+}
+
+.cta-content {
+    position: relative;
+
+    z-index: 2;
+
+    padding: 40px;
+}
+
+.cta h2 {
+    font-size: clamp(42px, 7vw, 82px);
+
+    letter-spacing: -5px;
+
+    line-height: .95;
+}
+
+.cta p {
+    color: #8791a3;
+
+    max-width: 500px;
+
+    margin: 20px auto 28px;
+
+    line-height: 1.7;
+
+    font-size: 14px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    max-width: var(--max);
+
+    margin: auto;
+
+    padding: 40px 28px 55px;
+
+    border-top: 1px solid var(--line);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    color: #626d7f;
+
+    font-size: 11px;
+}
+
+footer strong {
+    color: #dce2ec;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media(max-width: 800px) {
+
+    body {
+        cursor: auto;
+    }
+
+    #cursor,
+    #cursorDot {
+        display: none;
+    }
+
+    .navlinks,
+    .nav-cta {
+        display: none;
+    }
+
+    .menu {
+        display: block;
+    }
+
+    section {
+        padding: 90px 20px;
+    }
+
+    h1 {
+        letter-spacing: -4px;
+
+        font-size:
+            clamp(52px, 15vw, 85px);
+    }
+
+    .hero {
+        padding-top: 130px;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .showcase {
+        grid-template-columns: 1fr;
+    }
+
+    .demo {
+        min-height: 400px;
+    }
+
+    .fake-ui {
+        width: 45%;
+        height: 35%;
+    }
+
+    .step {
+        grid-template-columns:
+            45px 1fr;
+
+        gap: 10px;
+    }
+
+    .step p {
+        grid-column: 2;
+    }
+
+    footer {
+        padding: 35px 20px;
+
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     LOADER
+========================= -->
+
+<div id="loader">
+
+    <div class="loader-inner">
+
+        <div class="loader-logo">
+            MTSX<span>®</span>
+        </div>
+
+        <div class="loader-line">
+            <i></i>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CURSOR -->
+
+<div id="cursor"></div>
+<div id="cursorDot"></div>
+
+<!-- BACKGROUND -->
+
+<div class="noise"></div>
+<div class="grid"></div>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav id="nav">
+
+    <a class="logo magnetic" href="#inicio">
+        MTSX<span>®</span>
+    </a>
+
+    <div class="navlinks">
+
+        <a href="#servicos">
+            Serviços
+        </a>
+
+        <a href="#projetos">
+            Projetos
+        </a>
+
+        <a href="#processo">
+            Processo
+        </a>
+
+    </div>
+
+    <a
+        class="nav-cta magnetic"
+        href="https://wa.me/5562994779070"
+        target="_blank"
+    >
+        Falar com a MTSX ↗
+    </a>
+
+    <button class="menu" aria-label="Menu">
+        ☰
+    </button>
+
+</nav>
+
+<!-- =========================
+     CONTEÚDO
+========================= -->
+
+<main>
+
+<!-- HERO -->
+
+<section class="hero" id="inicio">
+
+    <div
+        class="glow"
+        id="heroGlow"
+    ></div>
+
+    <div class="hero-content">
+
+        <div class="eyebrow reveal">
+
+            <span class="pulse"></span>
+
+            DESIGN • DEVELOPMENT • DIGITAL
+
+        </div>
+
+        <h1 class="reveal">
+
+            SEU SITE.<br>
+
+            <span class="gradient-text">
+                OUTRO NÍVEL.
+            </span>
+
+        </h1>
+
+        <p class="hero-sub reveal">
+
+            A MTSX® cria sites modernos, rápidos
+            e memoráveis para transformar sua
+            presença digital em uma experiência
+            que as pessoas lembram.
+
+        </p>
+
+        <div class="hero-actions reveal">
+
+            <a
+                href="#servicos"
+                class="btn btn-primary magnetic"
+            >
+                Conhecer serviços
+                <span>↓</span>
+            </a>
+
+            <a
+                href="https://wa.me/5562994779070"
+                target="_blank"
+                class="btn btn-secondary magnetic"
+            >
+                Solicitar orçamento ↗
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="scroll-indicator">
+
+        <i></i>
+
+        SCROLL TO EXPLORE
+
+    </div>
+
+</section>
+
+<!-- =========================
+     SERVIÇOS
+========================= -->
+
+<section id="servicos">
+
+    <div class="reveal">
+
+        <div class="section-label">
+            01 / Serviços
+        </div>
+
+        <h2 class="section-title">
+
+            Design que chama atenção.<br>
+
+            Resultado que
+            <span class="gradient-text">
+                converte.
+            </span>
+
+        </h2>
+
+        <p class="section-copy">
+
+            Escolha o formato ideal para o seu projeto.
+            Todos os sites são pensados para ter uma
+            apresentação moderna, responsiva e profissional.
+
+        </p>
+
+    </div>
+
+    <div class="services-grid">
+
+        <!-- CARD 1 -->
+
+        <article class="card tilt reveal magnetic-area">
+
+            <div class="card-number">
+                01 — START
+            </div>
+
+            <div class="card-icon">
+                ◈
+            </div>
+
+            <h3>
+                Site Básico
+            </h3>
+
+            <p>
+                Uma presença digital objetiva e
+                profissional para apresentar sua empresa,
+                serviço ou projeto.
+            </p>
+
+            <div class="price">
+                R$ 400
+                <small>
+                    / projeto
+                </small>
+            </div>
+
+        </article>
+
+        <!-- CARD 2 -->
+
+        <article class="card tilt reveal magnetic-area">
+
+            <div class="card-number">
+                02 — CONVERT
+            </div>
+
+            <div class="card-icon">
+                ↗
+            </div>
+
+            <h3>
+                Landing Page
+            </h3>
+
+            <p>
+                Uma página focada em apresentar
+                sua oferta e levar o visitante direto
+                para a ação.
+            </p>
+
+            <div class="price">
+                R$ 250
+                <small>
+                    / projeto
+                </small>
+            </div>
+
+        </article>
+
+        <!-- CARD 3 -->
+
+        <article class="card tilt reveal magnetic-area">
+
+            <div class="card-number">
+                03 — PREMIUM
+            </div>
+
+            <div class="card-icon">
+                ✦
+            </div>
+
+            <h3>
+                Site Profissional
+            </h3>
+
+            <p>
+                Experiência completa com visual premium,
+                animações, interações e estrutura
+                personalizada.
+            </p>
+
+            <div class="price">
+                R$ 700
+                <small>
+                    / projeto
+                </small>
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     PROJETOS
+========================= -->
+
+<section id="projetos">
+
+    <div class="reveal">
+
+        <div class="section-label">
+            02 / Experiências
+        </div>
+
+        <h2 class="section-title">
+
+            Não entregamos apenas páginas.<br>
+
+            <span class="gradient-text">
+                Criamos impacto.
+            </span>
+
+        </h2>
+
+    </div>
+
+    <div class="showcase">
+
+        <!-- DEMO GRANDE -->
+
+        <div
+            class="demo big reveal"
+            data-speed="0.08"
+        >
+
+            <div class="demo-inner">
+
+                <div class="demo-kicker">
+                    DEMO EXPERIENCE / 001
+                </div>
+
+                <h3>
+
+                    VISUAL.<br>
+                    QUE<br>
+                    VENDE.
+
+                </h3>
+
+                <p>
+
+                    Layouts pensados para destacar
+                    sua marca, produto ou serviço
+                    desde o primeiro segundo.
+
+                </p>
+
+            </div>
+
+            <div class="fake-ui"></div>
+
+        </div>
+
+        <!-- DEMO PEQUENA -->
+
+        <div
+            class="demo small reveal"
+            data-speed="-0.05"
+        >
+
+            <div>
+
+                <div
+                    class="mini-num"
+                    data-count="100"
+                >
+                    0
+                </div>
+
+                <p>
+                    DESIGN RESPONSIVO
+                </p>
+
+            </div>
+
+            <div>
+
+                <h4>
+                    Do celular ao desktop.
+                </h4>
+
+                <p>
+
+                    Seu projeto adaptado para
+                    diferentes telas sem perder
+                    a experiência.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     PROCESSO
+========================= -->
+
+<section id="processo">
+
+    <div class="reveal">
+
+        <div class="section-label">
+            03 / Processo
+        </div>
+
+        <h2 class="section-title">
+
+            Do conceito ao<br>
+
+            <span class="gradient-text">
+                site publicado.
+            </span>
+
+        </h2>
+
+    </div>
+
+    <div class="process">
+
+        <!-- PASSO 1 -->
+
+        <div class="step reveal">
+
+            <div class="step-num">
+                01
+            </div>
+
+            <h3>
+                Briefing
+            </h3>
+
+            <p>
+
+                Entendemos seu negócio, público,
+                objetivos e referências para definir
+                a direção visual.
+
+            </p>
+
+        </div>
+
+        <!-- PASSO 2 -->
+
+        <div class="step reveal">
+
+            <div class="step-num">
+                02
+            </div>
+
+            <h3>
+                Design
+            </h3>
+
+            <p>
+
+                Criamos uma interface moderna
+                com hierarquia visual, identidade
+                e experiência pensadas para seu projeto.
+
+            </p>
+
+        </div>
+
+        <!-- PASSO 3 -->
+
+        <div class="step reveal">
+
+            <div class="step-num">
+                03
+            </div>
+
+            <h3>
+                Desenvolvimento
+            </h3>
+
+            <p>
+
+                Transformamos o conceito em um
+                site responsivo, rápido e com
+                interações cuidadosamente construídas.
+
+            </p>
+
+        </div>
+
+        <!-- PASSO 4 -->
+
+        <div class="step reveal">
+
+            <div class="step-num">
+                04
+            </div>
+
+            <h3>
+                Entrega
+            </h3>
+
+            <p>
+
+                Seu site pronto para apresentar
+                sua marca ao mundo.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- CTA -->
+
+    <div class="cta reveal">
+
+        <div class="glow"></div>
+
+        <div class="cta-content">
+
+            <div class="section-label">
+                MTSX® / LET'S BUILD
+            </div>
+
+            <h2>
+
+                VAMOS CRIAR<br>
+
+                <span class="gradient-text">
+                    ALGO GRANDE.
+                </span>
+
+            </h2>
+
+            <p>
+
+                Tem uma ideia?
+                Transformamos ela em uma
+                experiência digital moderna.
+
+            </p>
+
+            <a
+                class="btn btn-primary magnetic"
+                href="https://wa.me/5562994779070"
+                target="_blank"
+            >
+                Começar meu projeto ↗
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div>
+
+        <strong>
+            MTSX®
+        </strong>
+
+        — Experiências digitais.
+
+    </div>
+
+    <div>
+
+        © 2026 MTSX® • Todos os direitos reservados.
+
+    </div>
+
+</footer>
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+/* =========================
+   LOADER
+========================= */
+
+window.addEventListener("load", () => {
+
+    setTimeout(() => {
+
+        document
+            .getElementById("loader")
+            .classList
+            .add("hide");
+
+    }, 650);
+
+    setTimeout(() => {
+
+        document
+            .querySelectorAll(".hero .reveal")
+            .forEach((element, index) => {
+
+                setTimeout(() => {
+
+                    element
+                        .classList
+                        .add("visible");
+
+                }, index * 130);
+
+            });
+
+    }, 750);
+
+});
+
+
+/* =========================
+   CURSOR
+========================= */
+
+const cursor =
+    document.getElementById("cursor");
+
+const dot =
+    document.getElementById("cursorDot");
+
+let mouseX = innerWidth / 2;
+let mouseY = innerHeight / 2;
+
+let cursorX = mouseX;
+let cursorY = mouseY;
+
+addEventListener("mousemove", (event) => {
+
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+
+});
+
+function cursorLoop() {
+
+    cursorX +=
+        (mouseX - cursorX) * .16;
+
+    cursorY +=
+        (mouseY - cursorY) * .16;
+
+    cursor.style.left =
+        cursorX + "px";
+
+    cursor.style.top =
+        cursorY + "px";
+
+    dot.style.left =
+        mouseX + "px";
+
+    dot.style.top =
+        mouseY + "px";
+
+    requestAnimationFrame(cursorLoop);
+}
+
+cursorLoop();
+
+
+/* =========================
+   CURSOR INTERAÇÕES
+========================= */
+
+document
+    .querySelectorAll(
+        "a, button, .card, .magnetic-area"
+    )
+    .forEach(element => {
+
+        element.addEventListener(
+            "mouseenter",
+            () => {
+
+                document.body
+                    .classList
+                    .add("cursor-grow");
+
+            }
+        );
+
+        element.addEventListener(
+            "mouseleave",
+            () => {
+
+                document.body
+                    .classList
+                    .remove("cursor-grow");
+
+            }
+        );
+
+    });
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+addEventListener("scroll", () => {
+
+    document
+        .getElementById("nav")
+        .classList
+        .toggle(
+            "scrolled",
+            scrollY > 40
+        );
+
+});
+
+
+/* =========================
+   REVEAL ON SCROLL
+========================= */
+
+const observer =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target
+                        .classList
+                        .add("visible");
+
+                    observer
+                        .unobserve(entry.target);
+
+                }
+
+            });
+
+        },
+        {
+            threshold: .12
+        }
+    );
+
+
+document
+    .querySelectorAll(".reveal")
+    .forEach(element => {
+
+        observer.observe(element);
+
+    });
+
+
+/* =========================
+   CARD 3D TILT
+========================= */
+
+document
+    .querySelectorAll(".tilt")
+    .forEach(card => {
+
+        card.addEventListener(
+            "mousemove",
+            event => {
+
+                const rect =
+                    card.getBoundingClientRect();
+
+                const x =
+                    event.clientX - rect.left;
+
+                const y =
+                    event.clientY - rect.top;
+
+                const rotateX =
+                    (y / rect.height - .5) * -7;
+
+                const rotateY =
+                    (x / rect.width - .5) * 7;
+
+                card.style.transform =
+                    `perspective(900px)
+                     rotateX(${rotateX}deg)
+                     rotateY(${rotateY}deg)
+                     translateY(-4px)`;
+
+            }
+        );
+
+        card.addEventListener(
+            "mouseleave",
+            () => {
+
+                card.style.transform = "";
+
+            }
+        );
+
+    });
+
+
+/* =========================
+   BOTÕES MAGNÉTICOS
+========================= */
+
+document
+    .querySelectorAll(".magnetic")
+    .forEach(element => {
+
+        element.addEventListener(
+            "mousemove",
+            event => {
+
+                const rect =
+                    element.getBoundingClientRect();
+
+                const x =
+                    (
+                        event.clientX -
+                        (rect.left + rect.width / 2)
+                    ) * .16;
+
+                const y =
+                    (
+                        event.clientY -
+                        (rect.top + rect.height / 2)
+                    ) * .16;
+
+                element.style.transform =
+                    `translate(${x}px, ${y}px)`;
+
+            }
+        );
+
+        element.addEventListener(
+            "mouseleave",
+            () => {
+
+                element.style.transform = "";
+
+            }
+        );
+
+    });
+
+
+/* =========================
+   HERO GLOW
+========================= */
+
+const heroGlow =
+    document.getElementById("heroGlow");
+
+addEventListener("mousemove", event => {
+
+    if (innerWidth > 800) {
+
+        heroGlow.style.transform =
+            `translate(
+                ${(event.clientX - innerWidth / 2) * .035}px,
+                ${(event.clientY - innerHeight / 2) * .035}px
+            )`;
+
+    }
+
+});
+
+
+/* =========================
+   PARALLAX
+========================= */
+
+addEventListener("scroll", () => {
+
+    document
+        .querySelectorAll("[data-speed]")
+        .forEach(element => {
+
+            const rect =
+                element.getBoundingClientRect();
+
+            const move =
+                (
+                    innerHeight / 2 -
+                    (rect.top + rect.height / 2)
+                ) *
+                Number(element.dataset.speed);
+
+            element.style.transform =
+                `translateY(${move}px)`;
+
+        });
+
+});
+
+
+/* =========================
+   CONTADOR
+========================= */
+
+const counters =
+    document.querySelectorAll(
+        "[data-count]"
+    );
+
+const countObserver =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+
+                    const element =
+                        entry.target;
+
+                    const target =
+                        Number(
+                            element.dataset.count
+                        );
+
+                    let number = 0;
+
+                    const timer =
+                        setInterval(() => {
+
+                            number += 4;
+
+                            if (number >= target) {
+
+                                number =
+                                    target;
+
+                                clearInterval(
+                                    timer
+                                );
+
+                            }
+
+                            element.textContent =
+                                number + "%";
+
+                        }, 20);
+
+                    countObserver
+                        .unobserve(element);
+
+                }
+
+            });
+
+        },
+        {
+            threshold: .7
+        }
+    );
+
+
+counters.forEach(counter => {
+
+    countObserver.observe(counter);
+
+});
+
+
+/* =========================
+   ÂNCORAS COM SCROLL SUAVE
+========================= */
+
+document
+    .querySelectorAll(
+        'a[href^="#"]'
+    )
+    .forEach(link => {
+
+        link.addEventListener(
+            "click",
+            event => {
+
+                const target =
+                    document.querySelector(
+                        link.getAttribute("href")
+                    );
+
+                if (target) {
+
+                    event.preventDefault();
+
+                    target.scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+                }
+
+            }
+        );
+
+    });
+
+</script>
+
+</body>
+</html>
